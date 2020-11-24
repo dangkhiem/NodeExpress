@@ -4,6 +4,12 @@ const exphbs  = require('express-handlebars');
 const path = require('path');
 const sass = require('node-sass');
 
+const route = require('./routes/index.js');
+const db = require('./config/db')
+
+//connect db
+db.connect();
+
 const port = 3000;
 const app = express();
 
@@ -22,12 +28,8 @@ app.set('views', path.join(__dirname, 'resources', 'views'));
 // Check request from client
 app.use(morgan('combined'));
 
-app.get('/', function(req, res){
-    res.render('home');
-});
-app.get('/login', (req,res) => {
-    res.render('login');
-})
+route(app);
+
 app.listen(port, function(){
     console.log("application is running on port:" + port);
 });
